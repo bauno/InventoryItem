@@ -5,14 +5,14 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>35752ea2-9451-43a9-a169-1589af589ea0</ProjectGuid>
+    <ProjectGuid>ea6cd649-76be-475b-bb70-aa5be3eff92a</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>InventoryItem</RootNamespace>
-    <AssemblyName>InventoryItem</AssemblyName>
+    <RootNamespace>InventoryItem.Tests</RootNamespace>
+    <AssemblyName>InventoryItem.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFSharpCoreVersion>4.4.0.0</TargetFSharpCoreVersion>
-    <Name>InventoryItem</Name>
+    <Name>InventoryItem.Tests</Name>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -46,7 +46,7 @@
     <Content Include="any\netstandard1.6\FSharp.Core.sigdata">
       <Paket>True</Paket>
     </Content>
-    <Compile Include="InventoryItem.fs" />
+    <Compile Include="InventoryItem.Tests.fs" />
     <None Include="Script.fsx" />
   </ItemGroup>
   <PropertyGroup>
