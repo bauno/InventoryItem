@@ -25,7 +25,7 @@ let inline (<!>) f x = map f x
 let inline lift2 f a b = f <!> a <*> b
 
 /// Composes two choice types, passing the case-1 type of the right value.
-let inline ( *>) a b = lift2 (fun _ z -> z) a b
+let inline ( *>) a b = lift2 (fun _  z -> z) a b
 
 /// Composes two choice types, passing the case-2 type of the left value.
 let inline ( <*) a b = lift2 (fun z _ -> z) a b
@@ -64,14 +64,29 @@ let NotEmpty = validator notEmpty ["String must not be empty"]
 let res = NotNull null
 let res1 = NotEmpty ""
 
-//let validName name = NotNull name <* NotEmpty name
+let validName name = NotNull name <* NotEmpty name
 //let validName name = lift2 (fun _ z -> z) (NotNull name) (NotEmpty name)
 //let validName name = (NotNull name) <* (NotEmpty name)
 
 //lift2 f a b = (map f a ) apply b
 
-let validName name = apply (map (fun z _ -> z) (NotNull name)) (NotEmpty name)
+//let validName name = apply (map (fun z _ -> z) (NotNull name)) (NotEmpty name)
 
 printfn "%A" (validName null)
 printfn "%A" (validName "")
 printfn "%A" (validName "pippo")
+
+let validEmail (email: string) =
+
+  let regex = System.Text.RegularExpressions.Regex(@"^\w+\@\w+\.\w{3}$")
+  regex.IsMatch(email)
+
+let ValidMail =
+  validator validEmail ["Invalid emsil"]
+
+let validMail mail = NotNull mail <* NotEmpty mail <* ValidMail mail
+
+printfn "%A" (validEmail null)
+printfn "%A" (validEmail "")
+printfn "%A" (validEmail "Pippo")
+printfn "%A" (validEmail "Pippo@pippo.com")
