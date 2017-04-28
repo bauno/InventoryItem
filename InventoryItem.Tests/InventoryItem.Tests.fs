@@ -1,1 +1,1 @@
-namespace InventoryItem.Tests
+module InventoryItem.Tests

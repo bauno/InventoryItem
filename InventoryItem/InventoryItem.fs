@@ -1,2 +1,1 @@
-namespace InventoryItem
-
+module InventoryItem
