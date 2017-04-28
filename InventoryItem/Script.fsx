@@ -48,14 +48,14 @@ let validator predicate error x =
     else Choice2Of2 error
 
 let notNull (s: string) =
+  printfn "NotNull"
   not (isNull s)
 
 let notEmpty (s:string) =
+  printfn "NotEmpty"
   if not (String.IsNullOrEmpty(s))
-  then s.Length > 0
+    then s.Length > 0
   else false
-
-
 
 let NotNull = validator notNull ["String must not be null"]
 let NotEmpty = validator notEmpty ["String must not be empty"]
@@ -69,6 +69,14 @@ let validName name = NotNull name <* NotEmpty name
 //let validName name = (NotNull name) <* (NotEmpty name)
 
 //lift2 f a b = (map f a ) apply b
+
+let tmp name = (map (fun z _ -> z) (NotNull name))
+
+
+
+printfn "%A" (tmp "pippo")
+
+
 
 //let validName name = apply (map (fun z _ -> z) (NotNull name)) (NotEmpty name)
 
@@ -86,7 +94,7 @@ let ValidMail =
 
 let validMail mail = NotNull mail <* NotEmpty mail <* ValidMail mail
 
-printfn "%A" (validEmail null)
+//printfn "%A" (validEmail null)
 printfn "%A" (validEmail "")
 printfn "%A" (validEmail "Pippo")
 printfn "%A" (validEmail "Pippo@pippo.com")
