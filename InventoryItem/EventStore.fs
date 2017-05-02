@@ -22,7 +22,7 @@ let makeRepository
 
     let load (t,id) = async {
         let streamId = streamId id
-        let! eventsSlice = conn.ReadStreamEventsForwardAsync(streamId, 1, 500, false) |> Async.AwaitTask
+        let! eventsSlice = conn.ReadStreamEventsForwardAsync(streamId, 1L, 500, false) |> Async.AwaitTask
         return eventsSlice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data))
     }
 

@@ -3,12 +3,12 @@ module InventoryItem.Tests
 open EventStore.ClientAPI
 open EventStore.ClientAPI.Projections
 open EventStore.ClientAPI.SystemData
-
 let address = System.Net.IPAddress.Parse("127.0.0.1");
 let port = 1113
 let endPoint = new System.Net.IPEndPoint(address, port)
 
 let conn = EventStoreConnection.Create endPoint
+
 
 let handleCommand' =
     Aggregate.makeHandler
@@ -47,15 +47,3 @@ let checkInItemsItem() =
 let removeItems() =
     let version = 3
     InventoryItem.RemoveItems(37) |> handleCommand (id,version)
-
-[<Xunit.Fact>]
-let getFlatReadModel() =
-    let get = EventStore.makeReadModelGetter conn (fun data -> Serialization.deserializet<ReadModels.InventoryItemFlatReadModel>(data))
-    let readModel = get ("InventoryItemFlatReadModel-" + id.ToString("N")) |> Async.RunSynchronously
-    printfn "%A" readModel
-
-[<Xunit.Fact>]
-let getOverviewReadModel() =
-    let get = EventStore.makeReadModelGetter conn (fun data -> Serialization.deserializet<ReadModels.InventoryItemOverviewReadModel>(data))
-    let readModel = get "InventoryItemOverviewReadModel"  |> Async.RunSynchronously
-    printfn "%A" readModel

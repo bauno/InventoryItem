@@ -1,15 +1,21 @@
 module Serialization
 
+let pippo = 125
+
+open Newtonsoft.Json
+open Newtonsoft.Json.Serialization
+open Newtonsoft.Json.Converters
+
 open System
 open System.IO
 open System.Text
-open Newtonsoft.Json
 
-module private JsonNet =
+
+
+module JsonNet =
 
     open System.Collections.Generic
-    open Newtonsoft.Json.Serialization
-    open Newtonsoft.Json.Converters
+
     open Microsoft.FSharp.Reflection
 
     type GuidConverter() =

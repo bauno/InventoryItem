@@ -4,5 +4,6 @@ nuget FAKE
 nuget FSharp.Core
 nuget FsUnit.xUnit
 nuget Newtonsoft.Json
+nuget Suave
 nuget xunit
 nuget xunit.runner.console

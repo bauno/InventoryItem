@@ -1,3 +1,4 @@
 FSharp.Core
 EventStore.Client
 xunit
+Newtonsoft.Json

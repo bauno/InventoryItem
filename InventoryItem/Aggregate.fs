@@ -2,7 +2,9 @@
 [<RequireQualifiedAccess>]
 module Aggregate
 
-/// Represents an aggregate.
+let paperino = 12
+
+/// Represents an aggregate.4
 type Aggregate<'TState, 'TCommand, 'TEvent> = {
 
     /// An initial state value.

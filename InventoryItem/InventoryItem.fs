@@ -6,14 +6,14 @@ type State = {
 }
 with static member Zero = { isActive = false }
 
-type Command = 
+type Command =
     | Create of string
-    | Deactivate 
+    | Deactivate
     | Rename of string
     | CheckInItems of int
     | RemoveItems of int
 
-type Event = 
+type Event =
     | Created of string
     | Deactivated
     | Renamed of string
@@ -27,9 +27,9 @@ let apply item = function
     | ItemsCheckedIn _ -> item
     | ItemsRemoved _ -> item
 
+open Validator
 
 module private Assert =
-    open Validator
     let validName name = notNull ["The name must not be null."] name <* notEmptyString ["The name must not be empty"] name
     let validCount count = validator (fun c -> c > 0) ["The item count must be positive."] count
     let inactive state = validator (fun i -> not i.isActive) ["The item is already deactivated."] state
@@ -37,7 +37,7 @@ module private Assert =
 let exec state =
     function
     | Create name        -> Assert.validName name   <?> Created(name)
-    | Deactivate         -> Assert.inactive state   <?> Deactivated 
+    | Deactivate         -> Assert.inactive state   <?> Deactivated
     | Rename name        -> Assert.validName name   <?> Renamed(name)
     | CheckInItems count -> Assert.validCount count <?> ItemsCheckedIn(count)
     | RemoveItems count  -> Assert.validCount count <?> ItemsRemoved(count)

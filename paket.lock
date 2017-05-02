@@ -47,12 +47,21 @@ NUGET
       System.Runtime.Extensions (>= 4.3) - framework: dnxcore50, >= netstandard13
       System.Runtime.InteropServices (>= 4.3) - framework: dnxcore50, >= netstandard13
       System.Threading (>= 4.3) - framework: dnxcore50, >= netstandard13
-    Microsoft.NETCore.Platforms (1.1) - framework: >= net10, dnxcore50, >= netstandard10, netstandard12, netstandard13, netstandard14, netstandard15
-    Microsoft.NETCore.Targets (1.1) - framework: >= net10, dnxcore50, >= netstandard10, netstandard12, netstandard13, netstandard14, netstandard15
+    Microsoft.NETCore.Platforms (1.1) - framework: >= net10, dnxcore50, >= netstandard10, netstandard13, netstandard14, netstandard15
+    Microsoft.NETCore.Targets (1.1) - framework: >= net10, dnxcore50, >= netstandard10, netstandard13, netstandard14, netstandard15
     Microsoft.Win32.Primitives (4.3) - framework: >= netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: >= netstandard13
       Microsoft.NETCore.Targets (>= 1.1) - framework: >= netstandard13
       System.Runtime (>= 4.3) - framework: >= netstandard13
+    Microsoft.Win32.Registry (4.3) - framework: >= netstandard16
+      Microsoft.NETCore.Platforms (>= 1.1) - framework: >= netstandard13
+      System.Collections (>= 4.3) - framework: >= netstandard13
+      System.Globalization (>= 4.3) - framework: >= netstandard13
+      System.Resources.ResourceManager (>= 4.3) - framework: >= netstandard13
+      System.Runtime (>= 4.3) - framework: >= netstandard13
+      System.Runtime.Extensions (>= 4.3) - framework: >= netstandard13
+      System.Runtime.Handles (>= 4.3) - framework: >= netstandard13
+      System.Runtime.InteropServices (>= 4.3) - framework: >= netstandard13
     NETStandard.Library (1.6.1) - framework: netstandard10, >= netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: >= netstandard10
       Microsoft.Win32.Primitives (>= 4.3) - framework: >= net46, >= netstandard13
@@ -117,6 +126,9 @@ NUGET
     runtime.native.System.Net.Http (4.3) - framework: >= netstandard16
       Microsoft.NETCore.Platforms (>= 1.1)
       Microsoft.NETCore.Targets (>= 1.1)
+    runtime.native.System.Net.Security (4.3) - framework: >= netstandard16
+      Microsoft.NETCore.Platforms (>= 1.1)
+      Microsoft.NETCore.Targets (>= 1.1)
     runtime.native.System.Security.Cryptography.Apple (4.3) - framework: >= netstandard16
       runtime.osx.10.10-x64.runtime.native.System.Security.Cryptography.Apple (>= 4.3)
     runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: >= netstandard13
@@ -138,6 +150,17 @@ NUGET
     runtime.ubuntu.14.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: >= netstandard13
     runtime.ubuntu.16.04-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: >= netstandard13
     runtime.ubuntu.16.10-x64.runtime.native.System.Security.Cryptography.OpenSsl (4.3) - framework: >= netstandard13
+    Suave (2.1)
+      FSharp.Core (>= 4.0.0.1) - framework: >= net10, netstandard10, netstandard11, netstandard12, netstandard13, netstandard14, netstandard15
+      FSharp.Core (>= 4.1.2) - framework: >= netstandard16
+      NETStandard.Library (>= 1.6.1) - framework: >= netstandard16
+      System.Data.Common (>= 4.1) - framework: >= netstandard16
+      System.Diagnostics.Process (>= 4.1) - framework: >= netstandard16
+      System.Globalization.Extensions (>= 4.3) - framework: >= netstandard16
+      System.Net.Security (>= 4.0) - framework: >= netstandard16
+      System.Runtime.Serialization.Json (>= 4.0.2) - framework: >= netstandard16
+      System.Security.Claims (>= 4.0.1) - framework: >= netstandard16
+      System.Security.Cryptography.Primitives (>= 4.3) - framework: >= netstandard16
     System.AppContext (4.3) - framework: >= netstandard13
       System.Runtime (>= 4.3) - framework: dnxcore50, netstandard13, >= netstandard16
     System.Buffers (4.3) - framework: >= netstandard13
@@ -204,6 +227,15 @@ NUGET
       System.IO (>= 4.3) - framework: >= netstandard13
       System.Runtime (>= 4.3) - framework: >= netstandard13
       System.Text.Encoding (>= 4.3) - framework: >= netstandard13
+    System.Data.Common (4.3) - framework: >= netstandard16
+      System.Collections (>= 4.3) - framework: >= netstandard12
+      System.Globalization (>= 4.3) - framework: >= netstandard12
+      System.IO (>= 4.3) - framework: >= netstandard12
+      System.Resources.ResourceManager (>= 4.3) - framework: >= netstandard12
+      System.Runtime (>= 4.3) - framework: >= netstandard12
+      System.Runtime.Extensions (>= 4.3) - framework: >= netstandard12
+      System.Text.RegularExpressions (>= 4.3) - framework: >= netstandard12
+      System.Threading.Tasks (>= 4.3) - framework: >= netstandard12
     System.Diagnostics.Debug (4.3) - framework: dnxcore50, netstandard10, >= netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: dnxcore50, netstandard10, >= netstandard13
       Microsoft.NETCore.Targets (>= 1.1) - framework: dnxcore50, netstandard10, >= netstandard13
@@ -214,6 +246,28 @@ NUGET
       System.Reflection (>= 4.3) - framework: netstandard11, >= netstandard13
       System.Runtime (>= 4.3) - framework: netstandard11, >= netstandard13
       System.Threading (>= 4.3) - framework: netstandard11, >= netstandard13
+    System.Diagnostics.Process (4.3) - framework: >= netstandard16
+      Microsoft.NETCore.Platforms (>= 1.1) - framework: >= netstandard14
+      Microsoft.Win32.Primitives (>= 4.3) - framework: >= netstandard14
+      Microsoft.Win32.Registry (>= 4.3) - framework: >= netstandard14
+      runtime.native.System (>= 4.3) - framework: >= netstandard14
+      System.Collections (>= 4.3) - framework: >= netstandard14
+      System.Diagnostics.Debug (>= 4.3) - framework: >= netstandard14
+      System.Globalization (>= 4.3) - framework: >= netstandard14
+      System.IO (>= 4.3) - framework: >= netstandard13
+      System.IO.FileSystem (>= 4.3) - framework: >= netstandard14
+      System.IO.FileSystem.Primitives (>= 4.3) - framework: >= netstandard14
+      System.Resources.ResourceManager (>= 4.3) - framework: >= netstandard14
+      System.Runtime (>= 4.3) - framework: >= netstandard13
+      System.Runtime.Extensions (>= 4.3) - framework: >= netstandard14
+      System.Runtime.Handles (>= 4.3) - framework: >= netstandard13
+      System.Runtime.InteropServices (>= 4.3) - framework: >= netstandard14
+      System.Text.Encoding (>= 4.3) - framework: >= netstandard13
+      System.Text.Encoding.Extensions (>= 4.3) - framework: >= netstandard14
+      System.Threading (>= 4.3) - framework: >= netstandard14
+      System.Threading.Tasks (>= 4.3) - framework: >= netstandard14
+      System.Threading.Thread (>= 4.3) - framework: >= netstandard14
+      System.Threading.ThreadPool (>= 4.3) - framework: >= netstandard14
     System.Diagnostics.Tools (4.3) - framework: netstandard10, >= netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: dnxcore50, >= netstandard10
       Microsoft.NETCore.Targets (>= 1.1) - framework: dnxcore50, >= netstandard10
@@ -377,6 +431,35 @@ NUGET
       System.Runtime (>= 4.3) - framework: dnxcore50, netstandard10, netstandard11, >= netstandard13
       System.Threading (>= 4.3) - framework: dnxcore50, >= netstandard13
       System.Threading.Tasks (>= 4.3) - framework: dnxcore50, netstandard11, >= netstandard13
+    System.Net.Security (4.3) - framework: >= netstandard16
+      Microsoft.NETCore.Platforms (>= 1.1) - framework: netstandard13, >= netstandard16
+      Microsoft.Win32.Primitives (>= 4.3) - framework: netstandard13, >= netstandard16
+      runtime.native.System (>= 4.3) - framework: >= netstandard16
+      runtime.native.System.Net.Security (>= 4.3) - framework: >= netstandard16
+      runtime.native.System.Security.Cryptography.OpenSsl (>= 4.3) - framework: >= netstandard16
+      System.Collections (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Collections.Concurrent (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Diagnostics.Tracing (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Globalization (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Globalization.Extensions (>= 4.3) - framework: >= netstandard16
+      System.IO (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Net.Primitives (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Resources.ResourceManager (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Runtime (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Runtime.Extensions (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Runtime.Handles (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Runtime.InteropServices (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Security.Claims (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Security.Cryptography.Algorithms (>= 4.3) - framework: >= netstandard16
+      System.Security.Cryptography.Encoding (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Security.Cryptography.OpenSsl (>= 4.3) - framework: >= netstandard16
+      System.Security.Cryptography.Primitives (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Security.Cryptography.X509Certificates (>= 4.3) - framework: >= net46, netstandard13, >= netstandard16
+      System.Security.Principal (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Text.Encoding (>= 4.3) - framework: >= netstandard16
+      System.Threading (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Threading.Tasks (>= 4.3) - framework: netstandard13, >= netstandard16
+      System.Threading.ThreadPool (>= 4.3) - framework: netstandard13, >= netstandard16
     System.Net.Sockets (4.3) - framework: >= netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: >= netstandard13
       Microsoft.NETCore.Targets (>= 1.1) - framework: >= netstandard13
@@ -395,6 +478,32 @@ NUGET
       System.Resources.ResourceManager (>= 4.3) - framework: dnxcore50, >= netstandard13
       System.Runtime (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
       System.Threading (>= 4.3) - framework: dnxcore50, >= netstandard13
+    System.Private.DataContractSerialization (4.3) - framework: >= netstandard16
+      System.Collections (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Collections.Concurrent (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Diagnostics.Debug (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Globalization (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.IO (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Linq (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection.Emit.ILGeneration (>= 4.3) - framework: >= netstandard13
+      System.Reflection.Emit.Lightweight (>= 4.3) - framework: >= netstandard13
+      System.Reflection.Extensions (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection.Primitives (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection.TypeExtensions (>= 4.3) - framework: >= net46, dnxcore50, >= netstandard13
+      System.Resources.ResourceManager (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Runtime (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Runtime.Extensions (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Runtime.Serialization.Primitives (>= 4.3) - framework: >= net46, dnxcore50, >= netstandard13
+      System.Text.Encoding (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Text.Encoding.Extensions (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Text.RegularExpressions (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Threading (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Threading.Tasks (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Xml.ReaderWriter (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Xml.XDocument (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Xml.XmlDocument (>= 4.3) - framework: >= net46, dnxcore50, >= netstandard13
+      System.Xml.XmlSerializer (>= 4.3) - framework: dnxcore50, >= netstandard13
     System.Reflection (4.3) - framework: >= net10, dnxcore50, >= netstandard10, netstandard13, netstandard14, netstandard15
       Microsoft.NETCore.Platforms (>= 1.1) - framework: dnxcore50, netstandard10, netstandard13, >= netstandard15
       Microsoft.NETCore.Targets (>= 1.1) - framework: dnxcore50, netstandard10, netstandard13, >= netstandard15
@@ -471,9 +580,21 @@ NUGET
       System.Resources.ResourceManager (>= 4.3) - framework: >= netstandard14
       System.Runtime (>= 4.3) - framework: >= netstandard13
       System.Runtime.Serialization.Primitives (>= 4.3) - framework: >= net46, >= netstandard13
+    System.Runtime.Serialization.Json (4.3) - framework: >= netstandard16
+      System.IO (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
+      System.Private.DataContractSerialization (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Runtime (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
     System.Runtime.Serialization.Primitives (4.3) - framework: netstandard10, >= netstandard13
       System.Resources.ResourceManager (>= 4.3) - framework: dnxcore50, >= netstandard13
       System.Runtime (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
+    System.Security.Claims (4.3) - framework: >= netstandard16
+      System.Collections (>= 4.3) - framework: >= netstandard13
+      System.Globalization (>= 4.3) - framework: >= netstandard13
+      System.IO (>= 4.3) - framework: >= netstandard13
+      System.Resources.ResourceManager (>= 4.3) - framework: >= netstandard13
+      System.Runtime (>= 4.3) - framework: >= netstandard13
+      System.Runtime.Extensions (>= 4.3) - framework: >= netstandard13
+      System.Security.Principal (>= 4.3) - framework: >= netstandard13
     System.Security.Cryptography.Algorithms (4.3) - framework: >= netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: dnxcore50, >= netstandard16
       runtime.native.System.Security.Cryptography.Apple (>= 4.3) - framework: >= netstandard16
@@ -576,6 +697,8 @@ NUGET
       System.Security.Cryptography.Primitives (>= 4.3) - framework: dnxcore50, >= netstandard16
       System.Text.Encoding (>= 4.3) - framework: dnxcore50, >= netstandard16
       System.Threading (>= 4.3) - framework: dnxcore50, >= netstandard16
+    System.Security.Principal (4.3) - framework: >= netstandard16
+      System.Runtime (>= 4.3) - framework: dnxcore50, >= netstandard10
     System.Text.Encoding (4.3) - framework: >= net10, dnxcore50, netstandard10, >= netstandard13
       Microsoft.NETCore.Platforms (>= 1.1) - framework: dnxcore50, netstandard10, >= netstandard13
       Microsoft.NETCore.Targets (>= 1.1) - framework: dnxcore50, netstandard10, >= netstandard13
@@ -665,6 +788,24 @@ NUGET
       System.Text.Encoding (>= 4.3) - framework: >= netstandard13
       System.Threading (>= 4.3) - framework: >= netstandard13
       System.Xml.ReaderWriter (>= 4.3) - framework: >= netstandard13
+    System.Xml.XmlSerializer (4.3) - framework: >= netstandard16
+      System.Collections (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Globalization (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.IO (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
+      System.Linq (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection.Emit (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection.Emit.ILGeneration (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection.Extensions (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection.Primitives (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Reflection.TypeExtensions (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Resources.ResourceManager (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Runtime (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
+      System.Runtime.Extensions (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Text.RegularExpressions (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Threading (>= 4.3) - framework: dnxcore50, >= netstandard13
+      System.Xml.ReaderWriter (>= 4.3) - framework: dnxcore50, netstandard10, >= netstandard13
+      System.Xml.XmlDocument (>= 4.3) - framework: dnxcore50, >= netstandard13
     xunit (2.1)
       xunit.assert (2.1)
       xunit.core (2.1)
