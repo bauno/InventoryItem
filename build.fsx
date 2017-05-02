@@ -10,8 +10,7 @@ let deployDir = "./deploy/"
 
 // Filesets
 let appReferences  =
-    !! "/**/*.csproj"
-    ++ "/**/*.fsproj"
+    !! "/**/*.fsproj"
 
 // version info
 let version = "0.1"  // or retrieve from CI server
@@ -26,6 +25,13 @@ Target "Build" (fun _ ->
     MSBuildDebug buildDir "Build" appReferences
     |> Log "AppBuild-Output: "
 )
+
+Target "BuildCore" (fun _ ->
+    // compile all projects below src/app/
+    MSBuildDebug buildDir "Build" ["InventoryItem.Core/InventoryItem.fsproj"]
+    |> Log "AppBuild-Output: "
+)
+
 
 Target "Deploy" (fun _ ->
     !! (buildDir + "/**/*.*")
