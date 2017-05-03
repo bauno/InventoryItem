@@ -37,7 +37,7 @@ let makeRepository
           return Choice1Of2 ()
         with
           | :? AggregateException as e ->
-                  return Choice2Of2 (sprintf "Error while committing aggregate to EventStore: %s" e.InnerException.Message)
+                  return Choice2Of2 ([sprintf "Error while committing aggregate to EventStore: %s" e.InnerException.Message])
     }
 
     load,commit

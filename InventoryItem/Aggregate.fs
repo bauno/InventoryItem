@@ -20,7 +20,7 @@ type Aggregate<'TState, 'TCommand, 'TEvent> = {
 type Id = System.Guid
 
 /// Creates a persistent, async command handler for an aggregate given load and commit functions.
-let makeHandler (aggregate:Aggregate<'TState, 'TCommand, 'TEvent>) (load: System.Type * Id -> Async<obj seq>, commit: Id * int -> obj -> Async<Choice<unit, string>>) =
+let makeHandler (aggregate:Aggregate<'TState, 'TCommand, 'TEvent>) (load: System.Type * Id -> Async<obj seq>, commit: Id * int -> obj -> Async<Choice<unit, string list>>) =
     fun (id,version) command -> async {
         let! events = load (typeof<'TEvent>,id)
         let events = events |> Seq.cast :> 'TEvent seq
@@ -33,7 +33,7 @@ let makeHandler (aggregate:Aggregate<'TState, 'TCommand, 'TEvent>) (load: System
             | Choice1Of2 x -> return Choice1Of2 x
             | Choice2Of2 e -> return Choice2Of2 e
         | Choice2Of2 errors ->
-            return errors.[0] |> Choice2Of2
+            return errors |> Choice2Of2
     }
 
 /// Creates a persistent command handler for an aggregate given load and commit functions.

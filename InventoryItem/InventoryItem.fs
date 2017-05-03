@@ -2,9 +2,10 @@
 module InventoryItem
 
 type State = {
-    isActive : bool;
+    isActive : bool
+    quantity: int
 }
-with static member Zero = { isActive = false }
+with static member Zero = { isActive = false; quantity = 0 }
 
 type Command =
     | Create of string
@@ -24,8 +25,8 @@ let apply item = function
     | Created _ -> { item with State.isActive = true; }
     | Deactivated _ -> { item with State.isActive = false; }
     | Renamed _ -> item
-    | ItemsCheckedIn _ -> item
-    | ItemsRemoved _ -> item
+    | ItemsCheckedIn e -> { item with quantity = item.quantity + e }
+    | ItemsRemoved e -> { item with quantity = item.quantity - e }
 
 open Validator
 

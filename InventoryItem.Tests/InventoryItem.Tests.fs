@@ -13,10 +13,12 @@ let endPoint = System.Net.IPEndPoint(address, port)
 let conn = EventStoreConnection.Create endPoint
 conn.ConnectAsync() |> Async.AwaitIAsyncResult |> Async.Ignore |> ignore
 
+let itemRepo = (EventStore.makeRepository conn "InventoryItem" Serialization.serializer)
+
 let handleCommand' =
     Aggregate.makeHandler
         { zero = InventoryItem.State.Zero; apply = InventoryItem.apply; exec = InventoryItem.exec }
-        (EventStore.makeRepository conn "InventoryItem" Serialization.serializer)
+        itemRepo
 
 let handleCommand (id,v) c = handleCommand' (id,v) c |> Async.RunSynchronously
 
@@ -26,7 +28,7 @@ let id = System.Guid.NewGuid()
 let firstChoice =
   function
   | Choice1Of2 x -> x
-  | Choice2Of2 error -> Assert.Fail error
+  | Choice2Of2 (errors: string list) -> Assert.Fail errors.[0]
 
 
 [<Test>]
@@ -66,3 +68,15 @@ let removeItems() =
     |> handleCommand (id,version)
     |> firstChoice
     |> should equal ()
+
+[<Test>]
+[<Order(5)>]
+let wrongVersion() =
+  let version = 99
+  let streamId (id: System.Guid) = "InventoryItem-" + id.ToString("N").ToLower()
+  let error = sprintf "Error while committing aggregate to EventStore: Append failed due to WrongExpectedVersion. Stream: %s, Expected version: 98, Current version: 3" (streamId id)
+  InventoryItem.RemoveItems(37)
+  |> handleCommand (id,version)
+  |> function
+  | Choice1Of2 _ -> failwith "Wrong choice!"
+  | Choice2Of2 e -> e.[0] |> should equal error
