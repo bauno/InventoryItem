@@ -2,6 +2,7 @@
 #r "./packages/FAKE/tools/FakeLib.dll"
 
 open Fake
+open Fake.Testing
 
 // Directories
 let buildDir  = "./build/"
@@ -26,12 +27,11 @@ Target "Build" (fun _ ->
     |> Log "AppBuild-Output: "
 )
 
-Target "BuildCore" (fun _ ->
-    // compile all projects below src/app/
-    MSBuildDebug buildDir "Build" ["InventoryItem.Core/InventoryItem.fsproj"]
-    |> Log "AppBuild-Output: "
-)
 
+Target "Test" (fun _ ->
+    !! "/**/build/InventoryItem.Tests.dll"
+    |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (buildDir @@ "xunit.html") })
+)
 
 Target "Deploy" (fun _ ->
     !! (buildDir + "/**/*.*")
@@ -42,6 +42,7 @@ Target "Deploy" (fun _ ->
 // Build order
 "Clean"
   ==> "Build"
+  ==> "Test"
   ==> "Deploy"
 
 // start build

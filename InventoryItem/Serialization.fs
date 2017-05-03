@@ -1,7 +1,5 @@
 module Serialization
 
-let pippo = 125
-
 open Newtonsoft.Json
 open Newtonsoft.Json.Serialization
 open Newtonsoft.Json.Converters
