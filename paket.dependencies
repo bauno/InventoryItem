@@ -2,8 +2,7 @@ source https://www.nuget.org/api/v2
 nuget eventstore.client
 nuget FAKE
 nuget FSharp.Core
-nuget FsUnit.xUnit
 nuget Newtonsoft.Json
+nuget nunit
 nuget Suave
-nuget xunit
-nuget xunit.runner.console
+nuget NUnit.Console

@@ -3,14 +3,14 @@ module InventoryItem.Tests
 open EventStore.ClientAPI
 open EventStore.ClientAPI.Projections
 open EventStore.ClientAPI.SystemData
+open NUnit.Framework
 
 let address = System.Net.IPAddress.Parse("127.0.0.1");
 let port = 1113
-let endPoint = new System.Net.IPEndPoint(address, port)
+let endPoint = System.Net.IPEndPoint(address, port)
 
 let conn = EventStoreConnection.Create endPoint
-conn.ConnectAsync() |> Async.AwaitIAsyncResult |> Async.Ignore
-
+conn.ConnectAsync() |> Async.AwaitIAsyncResult |> Async.Ignore |> ignore
 
 let handleCommand' =
     Aggregate.makeHandler
@@ -19,25 +19,37 @@ let handleCommand' =
 
 let handleCommand (id,v) c = handleCommand' (id,v) c |> Async.RunSynchronously
 
-let id = System.Guid.Parse("88085239-6f0f-48c6-b73d-017333cb99da")
+let id = System.Guid.NewGuid()
 
 
-[<Xunit.Fact>]
+[<Test>]
+[<Order(1)>]
+// [<Trait("Order","1")>]
 let createInventoryItem() =
     let version = 0
-    InventoryItem.Create("Pool Pump") |> handleCommand (id,version)
+    InventoryItem.Create("Pool Pump") |> handleCommand (id,version) 
+    ()
 
-[<Xunit.Fact>]
+[<Test>]
+[<Order(2)>]
+// [<Trait("Order","2")>]
 let renameInventoryItem() =
     let version = 1
     InventoryItem.Rename("Cooler Pool Pump") |> handleCommand (id,version)
+    ()
 
-[<Xunit.Fact>]
+[<Test>]
+[<Order(3)>]
+// [<Trait("Order","3")>]
 let checkInItemsItem() =
     let version = 2
     InventoryItem.CheckInItems(100) |> handleCommand (id,version)
+    ()
 
-[<Xunit.Fact>]
+[<Test>]
+[<Order(4)>]
+// [<Trait("Order","4")>]
 let removeItems() =
     let version = 3
     InventoryItem.RemoveItems(37) |> handleCommand (id,version)
+    ()

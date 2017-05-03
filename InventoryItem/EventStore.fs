@@ -27,12 +27,21 @@ let makeRepository
     }
 
     let commit (id,expectedVersion) e = async {
+        let mutable failed = false
+        let mutable error = ""
         let streamId = streamId id
         let eventType,data = serialize e
         let metaData = [||] : byte array
-        let eventData = [new EventData(Guid.NewGuid(), eventType, true, data, metaData)]
-        let commitVersion = if expectedVersion = 0 then ExpectedVersion.Any else expectedVersion
-        conn.AppendToStreamAsync(streamId, int64(commitVersion), eventData) |> Async.AwaitIAsyncResult |> Async.Ignore |> ignore
+        let eventData = [EventData(Guid.NewGuid(), eventType, true, data, metaData)]
+        let commitVersion = if expectedVersion = 0 then ExpectedVersion.Any else expectedVersion - 1
+        try
+            let! res = conn.AppendToStreamAsync(streamId, int64(commitVersion), eventData) |> Async.AwaitTask
+            ()
+        with 
+            | :? AggregateException as e -> 
+                error <- sprintf "Error while committing aggregate to EventStore: %s" e.InnerException.Message
+                failed <- true
+        if failed then failwith error
     }
 
     load,commit

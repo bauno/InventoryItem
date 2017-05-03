@@ -30,7 +30,9 @@ Target "Build" (fun _ ->
 
 Target "Test" (fun _ ->
     !! "/**/build/InventoryItem.Tests.dll"
-    |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (buildDir @@ "xunit.html") })
+    |> xUnit2 (fun p -> { p with HtmlOutputPath = Some (buildDir @@ "xunit.html"); 
+                                                        IncludeTraits = ["Order","1";
+                                                        "Order","2";"Order","3";"Order","4"] })
 )
 
 Target "Deploy" (fun _ ->
