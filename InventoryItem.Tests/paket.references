@@ -2,3 +2,4 @@ FSharp.Core
 EventStore.Client
 Newtonsoft.Json
 nunit
+FsUnit

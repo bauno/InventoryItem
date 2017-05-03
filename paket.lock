@@ -27,6 +27,11 @@ NUGET
       System.Threading.ThreadPool (>= 4.0.10) - framework: >= netstandard16
       System.Threading.Timer (>= 4.0.1) - framework: >= netstandard16
       System.ValueTuple (>= 4.3) - framework: >= net10, netstandard10, netstandard11, netstandard12, netstandard13, netstandard14, netstandard15
+    FsUnit (3.0)
+      FSharp.Core (>= 3.1.2.5) - framework: >= net10, netstandard10, netstandard11, netstandard12, netstandard13, netstandard14, netstandard15
+      FSharp.Core (>= 4.1) - framework: >= netstandard16
+      NETStandard.Library (>= 1.6) - framework: >= netstandard16
+      NUnit (>= 3.6)
     Microsoft.CSharp (4.3) - framework: netstandard10, >= netstandard13
       System.Collections (>= 4.3) - framework: dnxcore50, >= netstandard13
       System.Diagnostics.Debug (>= 4.3) - framework: dnxcore50, >= netstandard13
