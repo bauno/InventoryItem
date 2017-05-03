@@ -24,7 +24,6 @@ let id = System.Guid.NewGuid()
 
 [<Test>]
 [<Order(1)>]
-// [<Trait("Order","1")>]
 let createInventoryItem() =
     let version = 0
     InventoryItem.Create("Pool Pump") |> handleCommand (id,version) 
@@ -32,7 +31,6 @@ let createInventoryItem() =
 
 [<Test>]
 [<Order(2)>]
-// [<Trait("Order","2")>]
 let renameInventoryItem() =
     let version = 1
     InventoryItem.Rename("Cooler Pool Pump") |> handleCommand (id,version)
@@ -40,7 +38,6 @@ let renameInventoryItem() =
 
 [<Test>]
 [<Order(3)>]
-// [<Trait("Order","3")>]
 let checkInItemsItem() =
     let version = 2
     InventoryItem.CheckInItems(100) |> handleCommand (id,version)
@@ -48,7 +45,6 @@ let checkInItemsItem() =
 
 [<Test>]
 [<Order(4)>]
-// [<Trait("Order","4")>]
 let removeItems() =
     let version = 3
     InventoryItem.RemoveItems(37) |> handleCommand (id,version)
