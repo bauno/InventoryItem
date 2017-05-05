@@ -20,21 +20,21 @@ type Aggregate<'TState, 'TCommand, 'TEvent> = {
 type Id = System.Guid
 
 /// Creates a persistent, async command handler for an aggregate given load and commit functions.
-let makeHandler (aggregate:Aggregate<'TState, 'TCommand, 'TEvent>) (load: System.Type * Id -> Async<Choice<obj seq,string>>, commit: Id * int -> obj -> Async<Choice<unit, string list>>) =
+let makeHandler (aggregate:Aggregate<'TState, 'TCommand, 'TEvent>) (load: System.Type * Id -> Async<Choice<obj seq,string list>>, commit: Id * int -> obj -> Async<Choice<unit, string list>>) =
     fun (id,version) command -> async {
         let! events = load (typeof<'TEvent>,id)
-        let pippo = match events with
+        let res = match events with
                     | Choice2Of2 s -> Choice2Of2 s
                     | Choice1Of2 es -> let events = es |> Seq.cast :> 'TEvent seq        
                                        let state = Seq.fold aggregate.apply aggregate.zero events
-                                       let event = aggregate.exec state command
-                                       let event = aggregate.exec state command
+                                       let event = aggregate.exec state command                                       
                                        match event with
                                        | Choice1Of2 event -> let res  = event |> commit (id,version) |> Async.RunSynchronously
                                                              match res with
                                                              | Choice1Of2 x -> Choice1Of2 x                                                                               
-                                                             | Choice2Of2 e -> Choice2Of2 e.[0]                                                 
-        return pippo                
+                                                             | Choice2Of2 e -> Choice2Of2 e                                          
+                                       | Choice2Of2 s -> Choice2Of2 s
+        return res                
     }
 
 /// Creates a persistent command handler for an aggregate given load and commit functions.

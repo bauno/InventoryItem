@@ -21,9 +21,13 @@ let makeRepository
     let streamId (id:Guid) = category + "-" + id.ToString("N").ToLower()
 
     let load (t,id) = async {
-        let streamId = streamId id
-        let! eventsSlice = conn.ReadStreamEventsForwardAsync(streamId, 1L, 500, false)  |> Async.AwaitTask
-        return eventsSlice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data))
+        try
+            let streamId = streamId id
+            let! eventsSlice = conn.ReadStreamEventsForwardAsync(streamId, 1L, 500, false)  |> Async.AwaitTask
+            return eventsSlice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data)) |> Choice1Of2
+        with
+          | :? AggregateException as e -> 
+                return Choice2Of2 ([sprintf "Error while reading aggregate to EventStore: %s" e.InnerException.Message])
     }
 
     let commit (id,expectedVersion) e = async {
@@ -44,12 +48,11 @@ let makeRepository
 
 /// Creates a function that returns a read model from the last event of a stream.
 let makeReadModelGetter (conn:IEventStoreConnection) (deserialize:byte array -> _) =
-    fun streamId -> async {
-        let! eventsSlice = conn.ReadStreamEventsBackwardAsync(streamId, -1L, 1, false) |> Async.AwaitTask
-        if eventsSlice.Status <> SliceReadStatus.Success then return None
-        elif eventsSlice.Events.Length = 0 then return None
-        else
-            let lastEvent = eventsSlice.Events.[0]
-            if lastEvent.Event.EventNumber = 0L then return None
-            else return Some(deserialize(lastEvent.Event.Data))
+    fun streamId -> async {        
+            let! eventsSlice = conn.ReadStreamEventsBackwardAsync(streamId, -1L, 1, false) |> Async.AwaitTask
+            if eventsSlice.Status <> SliceReadStatus.Success then return Choice1Of2 None
+            elif eventsSlice.Events.Length = 0 then return Choice1Of2 None
+            else let lastEvent = eventsSlice.Events.[0]
+                 if lastEvent.Event.EventNumber = 0L then return Choice1Of2 None
+                 else return deserialize(lastEvent.Event.Data) |> Some |> Choice1Of2        
     }
