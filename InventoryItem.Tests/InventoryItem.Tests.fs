@@ -80,5 +80,3 @@ let wrongVersion() =
   |> function
   | Choice1Of2 _ -> failwith "Wrong choice!"
   | Choice2Of2 e -> e.[0] |> should equal error
-
-

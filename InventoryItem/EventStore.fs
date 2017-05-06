@@ -27,7 +27,7 @@ let makeRepository
             printfn "Length: %d" eventsSlice.Events.Length
             return eventsSlice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data)) |> Choice1Of2
         with
-          | :? AggregateException as e -> 
+          | :? AggregateException as e ->
                 return Choice2Of2 ([sprintf "Error while reading aggregate from EventStore: %s" e.InnerException.Message])
     }
 
@@ -49,11 +49,11 @@ let makeRepository
 
 /// Creates a function that returns a read model from the last event of a stream.
 let makeReadModelGetter (conn:IEventStoreConnection) (deserialize:byte array -> _) =
-    fun streamId -> async {        
+    fun streamId -> async {
             let! eventsSlice = conn.ReadStreamEventsBackwardAsync(streamId, -1L, 1, false) |> Async.AwaitTask
             if eventsSlice.Status <> SliceReadStatus.Success then return Choice1Of2 None
             elif eventsSlice.Events.Length = 0 then return Choice1Of2 None
             else let lastEvent = eventsSlice.Events.[0]
                  if lastEvent.Event.EventNumber = 0L then return Choice1Of2 None
-                 else return deserialize(lastEvent.Event.Data) |> Some |> Choice1Of2        
+                 else return deserialize(lastEvent.Event.Data) |> Some |> Choice1Of2
     }
