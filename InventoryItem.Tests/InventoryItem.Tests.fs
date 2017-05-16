@@ -91,11 +91,30 @@ let cannotRemoveNegativeItems() =
 
 
 [<Test>]
+[<Order(7)>]
+let IcanCheckInOtherItems() =
+    let version = 4
+    InventoryItem.CheckInItems(100)
+    |> handleCommand (id,version)
+    |> firstChoice
+    |> should equal ()
+
+[<Test>]
+[<Order(8)>]
+let andRemoveOthers() =
+    let version = 5
+    InventoryItem.RemoveItems(9)
+    |> handleCommand (id,version)
+    |> firstChoice
+    |> should equal ()
+
+
+[<Test>]
 [<Order(99)>]
 let wrongVersion() =
   let version = 99
   let streamId (id: System.Guid) = "InventoryItem-" + id.ToString("N").ToLower()
-  let error = sprintf "Error while committing aggregate to EventStore: Append failed due to WrongExpectedVersion. Stream: %s, Expected version: 98, Current version: 3" (streamId id)
+  let error = sprintf "Error while committing aggregate to EventStore: Append failed due to WrongExpectedVersion. Stream: %s, Expected version: 98, Current version: 5" (streamId id)
   InventoryItem.RemoveItems(37)
   |> handleCommand (id,version)
   |> function

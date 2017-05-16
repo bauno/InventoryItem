@@ -34,13 +34,10 @@ open Validator
 module private Assert =
     let validName name = notNull ["The name must not be null."] name <* notEmptyString ["The name must not be empty"] name
     let validCount count = validator (fun c -> c > 0) ["The item count must be positive"] count
-    let validStateAndCount stateAndCount = validator (fun (s,c) -> c > 0) ["The item count must be positive"] stateAndCount
     let inactive state = validator (fun i -> not i.isActive) ["The item is already deactivated."] state
-    let validCountRemoved stateAndCount = validator (fun (s,c) -> (s.quantity - c) > 0) ["Cannot check in a negative item count"] stateAndCount
-    let allValid stateAndCount = stateAndCount |> validStateAndCount  <* validCountRemoved stateAndCount
 
-module private DomainValidation =
-      let removeValid stateAndCount = validator (fun (s,c) -> c > 0 && (s.quantity - c) > 0) ["Cannot check in a negative item count"] stateAndCount
+module private DomainAssert =
+      let  removable stateAndCount = validator (fun (s,c) -> c > 0 && (s.quantity - c) > 0) ["Cannot check in a negative item count"] stateAndCount
 
 let exec state =
     function
@@ -48,4 +45,4 @@ let exec state =
     | Deactivate         -> Assert.inactive state   <?> Deactivated
     | Rename name        -> Assert.validName name   <?> Renamed(name)
     | CheckInItems count -> Assert.validCount count <?> ItemsCheckedIn(count)
-    | RemoveItems count  -> Assert.validCount count <* DomainValidation.removeValid (state, count) <?> ItemsRemoved(count)
+    | RemoveItems count  -> Assert.validCount count <* DomainAssert.removable (state, count) <?> ItemsRemoved(count)
