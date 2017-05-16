@@ -37,7 +37,7 @@ module private Assert =
     let validStateAndCount stateAndCount = validator (fun (s,c) -> c > 0) ["The item count must be positive"] stateAndCount
     let inactive state = validator (fun i -> not i.isActive) ["The item is already deactivated."] state
     let validCountRemoved stateAndCount = validator (fun (s,c) -> (s.quantity - c) > 0) ["Cannot check in a negative item count"] stateAndCount
-    let allValid stateAndCount = validStateAndCount stateAndCount <* validCountRemoved stateAndCount
+    let allValid stateAndCount = stateAndCount |> validStateAndCount  <* validCountRemoved stateAndCount
 
 let exec state =
     function
