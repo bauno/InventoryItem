@@ -39,10 +39,13 @@ module private Assert =
     let validCountRemoved stateAndCount = validator (fun (s,c) -> (s.quantity - c) > 0) ["Cannot check in a negative item count"] stateAndCount
     let allValid stateAndCount = stateAndCount |> validStateAndCount  <* validCountRemoved stateAndCount
 
+module private DomainValidation =
+      let removeValid stateAndCount = validator (fun (s,c) -> c > 0 && (s.quantity - c) > 0) ["Cannot check in a negative item count"] stateAndCount
+
 let exec state =
     function
     | Create name        -> Assert.validName name   <?> Created(name)
     | Deactivate         -> Assert.inactive state   <?> Deactivated
     | Rename name        -> Assert.validName name   <?> Renamed(name)
     | CheckInItems count -> Assert.validCount count <?> ItemsCheckedIn(count)
-    | RemoveItems count  -> Assert.allValid (state,count) <?> ItemsRemoved(count)
+    | RemoveItems count  -> Assert.validCount count <* DomainValidation.removeValid (state, count) <?> ItemsRemoved(count)
