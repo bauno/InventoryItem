@@ -24,7 +24,7 @@ let makeRepository
         try
             let streamId = streamId id
             let! eventsSlice = conn.ReadStreamEventsForwardAsync(streamId, 1L, 500, false)  |> Async.AwaitTask
-            printfn "Length: %d" eventsSlice.Events.Length
+            //printfn "Length: %d" eventsSlice.Events.Length
             return eventsSlice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data)) |> Choice1Of2
         with
           | :? AggregateException as e ->

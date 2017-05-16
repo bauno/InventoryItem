@@ -71,6 +71,27 @@ let removeItems() =
 
 [<Test>]
 [<Order(5)>]
+let cannotRemoveMoreItemsThanIHaveCheckedIn() =
+    let version = 4
+    InventoryItem.RemoveItems(87)
+    |> handleCommand (id,version)
+    |> function
+    | Choice1Of2 _ -> failwith "Wrong choice!"
+    | Choice2Of2 e -> e.[0] |> should equal "Cannot check in a negative item count"
+
+[<Test>]
+[<Order(6)>]
+let cannotRemoveNegativeItems() =
+    let version = 4
+    InventoryItem.RemoveItems(-55)
+    |> handleCommand (id,version)
+    |> function
+    | Choice1Of2 _ -> failwith "Wrong choice!"
+    | Choice2Of2 e -> e.[0] |> should equal "The item count must be positive"
+
+
+[<Test>]
+[<Order(99)>]
 let wrongVersion() =
   let version = 99
   let streamId (id: System.Guid) = "InventoryItem-" + id.ToString("N").ToLower()

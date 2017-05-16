@@ -4,8 +4,9 @@ module InventoryItem
 type State = {
     isActive : bool
     quantity: int
+    Name: string
 }
-with static member Zero = { isActive = false; quantity = 0 }
+with static member Zero = { isActive = false; quantity = 0; Name = System.String.Empty }
 
 type Command =
     | Create of string
@@ -22,18 +23,21 @@ type Event =
     | ItemsRemoved of int
 
 let apply item = function
-    | Created _ -> { item with State.isActive = true; }
+    | Created n -> { item with State.isActive = true; Name = n }
     | Deactivated _ -> { item with State.isActive = false; }
-    | Renamed _ -> item
-    | ItemsCheckedIn e -> { item with quantity = item.quantity + e }
-    | ItemsRemoved e -> { item with quantity = item.quantity - e }
+    | Renamed nn -> {item with Name = nn}
+    | ItemsCheckedIn e ->  { item with quantity = item.quantity + e }
+    | ItemsRemoved e -> { item with quantity = item.quantity - e}
 
 open Validator
 
 module private Assert =
     let validName name = notNull ["The name must not be null."] name <* notEmptyString ["The name must not be empty"] name
-    let validCount count = validator (fun c -> c > 0) ["The item count must be positive."] count
+    let validCount count = validator (fun c -> c > 0) ["The item count must be positive"] count
+    let validStateAndCount stateAndCount = validator (fun (s,c) -> c > 0) ["The item count must be positive"] stateAndCount
     let inactive state = validator (fun i -> not i.isActive) ["The item is already deactivated."] state
+    let validCountRemoved stateAndCount = validator (fun (s,c) -> (s.quantity - c) > 0) ["Cannot check in a negative item count"] stateAndCount
+    let allValid stateAndCount = validStateAndCount stateAndCount <* validCountRemoved stateAndCount
 
 let exec state =
     function
@@ -41,4 +45,4 @@ let exec state =
     | Deactivate         -> Assert.inactive state   <?> Deactivated
     | Rename name        -> Assert.validName name   <?> Renamed(name)
     | CheckInItems count -> Assert.validCount count <?> ItemsCheckedIn(count)
-    | RemoveItems count  -> Assert.validCount count <?> ItemsRemoved(count)
+    | RemoveItems count  -> Assert.allValid (state,count) <?> ItemsRemoved(count)
