@@ -32,8 +32,8 @@ let makeHandler (aggregate:Aggregate<'TState, 'TCommand, 'TEvent>) (load: System
                                       // let state = Seq.fold aggregate.applyEvent (Choice1Of2 aggregate.zero) events
                                        let event = aggregate.exec state command
                                        match event with
-                                       | Choice1Of2 event -> let res  = event |> commit (id,version) |> Async.RunSynchronously
-                                                             match res with
+                                       | Choice1Of2 event -> event |> commit (id,version) |> Async.RunSynchronously
+                                                             |> function
                                                              | Choice1Of2 x -> Choice1Of2 x
                                                              | Choice2Of2 e -> Choice2Of2 e
                                        | Choice2Of2 s -> Choice2Of2 s

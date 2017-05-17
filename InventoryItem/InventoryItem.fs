@@ -37,7 +37,7 @@ module private Assert =
     let inactive state = validator (fun i -> not i.isActive) ["The item is already deactivated."] state
 
 module private DomainAssert =
-      let  removable stateAndCount = validator (fun (s,c) -> c > 0 && (s.quantity - c) > 0) ["Cannot check in a negative item count"] stateAndCount
+      let removable stateAndCount = validator (fun (state,count) ->  (state.quantity - count) > 0) ["Cannot check in a negative item count"] stateAndCount
 
 let exec state =
     function
