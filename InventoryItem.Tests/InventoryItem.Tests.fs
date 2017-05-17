@@ -32,6 +32,17 @@ let firstChoice =
 
 
 [<Test>]
+[<Order(0)>]
+let initProjections() =
+    let pm = new ProjectionsManager(new EventStore.ClientAPI.Common.Log.ConsoleLogger(), endPoint, System.TimeSpan.FromSeconds(10.0))
+    let file p = System.IO.File.ReadAllText("./InventoryItem.Tests/Projections/" + p)
+    pm.CreateContinuousAsync("FlatReadModelProjection", file "FlatReadModelProjections.js", UserCredentials("admin", "changeit")) |> ignore
+    pm.CreateContinuousAsync("OverviewReadModelProjection", file "OverviewReadModelProjections.js", UserCredentials("admin", "changeit")) |> ignore
+    ()
+
+
+
+[<Test>]
 [<Order(1)>]
 let createInventoryItem() =
     let version = 0
