@@ -5,12 +5,39 @@ module EventStore
 open System
 open System.Net
 open EventStore.ClientAPI
+open Chessie.ErrorHandling
 
 /// Creates and opens an EventStore connection.
 let conn (endPoint: IPEndPoint )=
     let conn = EventStoreConnection.Create(endPoint)
     conn.ConnectAsync() |> Async.AwaitIAsyncResult |> Async.Ignore |> ignore
     conn
+
+let streamId (category: string )(id:Guid) = category + "-" + id.ToString("N").ToLower()
+
+let loadAsync (conn: IEventStoreConnection) (t,id)  = async {
+  let streamId = streamId (t.GetType().Name) id
+  let! eventsSlice = conn.ReadStreamEventsForwardAsync(streamId, 1L, 500, false)  |> Async.AwaitTask
+  return eventsSlice,t;
+}
+
+let toEvent  (deserialize: Type * string * byte array -> obj) ((slice: StreamEventsSlice),t)  =
+  slice.Events |> Seq.map ( fun e ->  deserialize(t, e.Event.EventType, e.Event.Data))
+
+
+//conn, deserialize
+let load'' (conn: IEventStoreConnection) (deserialize: Type * string * byte array -> obj) (category: string) (id:Guid) =
+  let streamId (id:Guid) = category + "-" + id.ToString("N").ToLower()
+  async {
+    try
+      let sId = streamId id
+      let! slice = conn.ReadStreamEventsForwardAsync(sId, 1L, 500, false)  |> Async.AwaitTask
+      let t = Type.GetType category
+      let events = slice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data))
+      return! (ok events)
+    with
+      | :? AggregateException as ex -> return fail (sprintf "Error while reading aggregate from EventStore: %s" ex.InnerException.Message)
+    }
 
 /// Creates event store based repository.
 let makeRepository

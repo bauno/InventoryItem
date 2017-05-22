@@ -15,6 +15,9 @@ conn.ConnectAsync() |> Async.AwaitIAsyncResult |> Async.Ignore |> ignore
 
 let itemRepo = (EventStore.makeRepository conn "InventoryItem" Serialization.serializer)
 
+let item = { zero = InventoryItem.State.Zero; apply = InventoryItem.apply; exec = InventoryItem.exec } : Aggregate.Aggregate<InventoryItem.State, InventoryItem.Command, InventoryItem.Event>
+
+
 let handleCommand' =
     Aggregate.makeHandler
         { zero = InventoryItem.State.Zero; apply = InventoryItem.apply; exec = InventoryItem.exec }

@@ -2,8 +2,6 @@
 [<RequireQualifiedAccess>]
 module Aggregate
 
-let paperino = 12
-
 /// Represents an aggregate.4
 type Aggregate<'TState, 'TCommand, 'TEvent> = {
 
@@ -19,6 +17,18 @@ type Aggregate<'TState, 'TCommand, 'TEvent> = {
 }
 
 type Id = System.Guid
+
+//Load and deserialize (event type, id) "aggregate type" -> aggregate
+
+
+//(aggregate name, id) -> seq obj
+//seq obj,Event Type -> TEVent seq
+//apply, zero, events -> state
+//exec, state, command -> event
+//Id, version,event -> commit
+
+//Exec cmd
+//commit resulting event(s)
 
 
 /// Creates a persistent, async command handler for an aggregate given load and commit functions.

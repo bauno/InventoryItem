@@ -1,5 +1,9 @@
 NUGET
   remote: https://www.nuget.org/api/v2
+    Chessie (0.6)
+      FSharp.Core  - framework: >= net10, netstandard10, netstandard11, netstandard12, netstandard13, netstandard14, netstandard15
+      FSharp.Core (>= 4.0.1.7-alpha) - framework: >= netstandard16
+      NETStandard.Library (>= 1.6) - framework: >= netstandard16
     EventStore.Client (4.0)
     FAKE (4.61)
     FSharp.Core (4.1.17)
