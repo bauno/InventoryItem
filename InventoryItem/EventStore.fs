@@ -25,20 +25,30 @@ let toEvent  (deserialize: Type * string * byte array -> obj) ((slice: StreamEve
   slice.Events |> Seq.map ( fun e ->  deserialize(t, e.Event.EventType, e.Event.Data))
 
 
+let loadSync'' (conn: IEventStoreConnection) (deserialize: Type * string * byte array -> obj) (category: string) (id:Guid) =  
+      try
+        let streamId (id:Guid) = category + "-" + id.ToString("N").ToLower()    
+        let sId = streamId id
+        let slice = conn.ReadStreamEventsForwardAsync(sId, 1L, 500, false)  |> Async.AwaitTask |> Async.RunSynchronously
+        let t = Type.GetType category
+        let events = slice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data))
+        ok events
+      with
+        | :? AggregateException as ex -> fail (sprintf "Error while reading aggregate from EventStore: %s" ex.InnerException.Message)  
+
 //conn, deserialize
 let load'' (conn: IEventStoreConnection) (deserialize: Type * string * byte array -> obj) (category: string) (id:Guid) =
-  let streamId (id:Guid) = category + "-" + id.ToString("N").ToLower()
+  let streamId (id:Guid) = category + "-" + id.ToString("N").ToLower()  
   async {
-    try
-      let sId = streamId id
-      let! slice = conn.ReadStreamEventsForwardAsync(sId, 1L, 500, false)  |> Async.AwaitTask
-      let t = Type.GetType category
-      let events = slice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data))
-      return! (ok events)
-    with
-      | :? AggregateException as ex -> return fail (sprintf "Error while reading aggregate from EventStore: %s" ex.InnerException.Message)
-    }
-
+      try
+        let sId = streamId id
+        let slice = conn.ReadStreamEventsForwardAsync(sId, 1L, 500, false)  |> Async.AwaitTask |> Async.RunSynchronously
+        let t = Type.GetType category
+        let events = slice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data))
+        return (ok events)
+      with
+        | :? AggregateException as ex -> return fail (sprintf "Error while reading aggregate from EventStore: %s" ex.InnerException.Message)
+      }      
 /// Creates event store based repository.
 let makeRepository
     (conn:IEventStoreConnection)
@@ -51,7 +61,6 @@ let makeRepository
         try
             let streamId = streamId id
             let! eventsSlice = conn.ReadStreamEventsForwardAsync(streamId, 1L, 500, false)  |> Async.AwaitTask
-            //printfn "Length: %d" eventsSlice.Events.Length
             return eventsSlice.Events |> Seq.map (fun e -> deserialize(t, e.Event.EventType, e.Event.Data)) |> Choice1Of2
         with
           | :? AggregateException as e ->
